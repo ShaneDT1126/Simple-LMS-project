@@ -5,7 +5,7 @@
       <div class="hero-body has-text-centered">
         
         <h1 class="title">
-          Welcome to StudHere
+          Welcome to StudyHub
         </h1>
 
         <h2 class="subtitle">
