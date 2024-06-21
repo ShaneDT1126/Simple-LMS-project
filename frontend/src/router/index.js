@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import SignupView from '../views/Signup.vue'
 import LoginView from '../views/LoginView.vue'
+import MyAccount from '../views/dashboard/MyAccount.vue'
 
 const routes = [
   {
@@ -24,7 +25,12 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
-  }
+  },
+  {
+    path: '/dashboard/profile',
+    name: 'dashboard',
+    component: MyAccount
+  },
 
 ]
 
