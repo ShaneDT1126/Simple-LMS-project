@@ -20,7 +20,16 @@ export default {
     name: 'MyAccount',
 
     methods:{
-        logout(){
+        async logout(){
+
+            await axios
+            .delete('api/v1/token/logout/')
+            .then(response => {
+                console.log('Logged out')
+            })
+            .catch(error => {
+                console.log(error)
+            })
 
             axios.defaults.headers.common['Authorization'] = "";
 
