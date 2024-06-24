@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation" style="min-height: 5rem">
       <div class="navbar-brand">
-        <router-link :to="{name: 'home'}" class="navbar-item is-size-4">StudHere</router-link>
+        <router-link :to="{name: 'home'}" class="navbar-item is-size-4">StudyHub</router-link>
       </div>
 
       <div id="navbar-item" class="navbar-menu">
