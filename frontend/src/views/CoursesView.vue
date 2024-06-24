@@ -29,7 +29,7 @@
                         <div class="column is-10">
                             <div class="columns is-multiline">
 
-                                <div class="column is-4">
+                                <div class="column is-4" v-for="course in courses" :key="course.id">
                                     <div class="card">
 
                                         <div class="card-image">
@@ -42,125 +42,13 @@
                                             <div class="media">
                                                 <div class="media-content">
                                                     <p class="is-size-5">
-                                                        Build a social network
+                                                        {{ course.title }}
                                                     </p>
                                                 </div>
                                             </div>
 
                                             <div class="content">
-                                                <p>Sheesh sheesh sheesh...</p>
-
-                                                <a>More</a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="column is-4">
-                                    <div class="card">
-
-                                        <div class="card-image">
-                                            <figure class="image is-4by3">
-                                                <img src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="Placeholder image">
-                                            </figure>
-                                        </div>
-
-                                        <div class="card-content">
-                                            <div class="media">
-                                                <div class="media-content">
-                                                    <p class="is-size-5">
-                                                        Learn to code
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <div class="content">
-                                                <p>Sheesh sheesh sheesh...</p>
-
-                                                <a>More</a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="column is-4">
-                                    <div class="card">
-
-                                        <div class="card-image">
-                                            <figure class="image is-4by3">
-                                                <img src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="Placeholder image">
-                                            </figure>
-                                        </div>
-
-                                        <div class="card-content">
-                                            <div class="media">
-                                                <div class="media-content">
-                                                    <p class="is-size-5">
-                                                        Build an e-commerce
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <div class="content">
-                                                <p>Sheesh sheesh sheesh...</p>
-
-                                                <a>More</a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="column is-4">
-                                    <div class="card">
-
-                                        <div class="card-image">
-                                            <figure class="image is-4by3">
-                                                <img src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="Placeholder image">
-                                            </figure>
-                                        </div>
-
-                                        <div class="card-content">
-                                            <div class="media">
-                                                <div class="media-content">
-                                                    <p class="is-size-5">
-                                                        Learn to CSS
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <div class="content">
-                                                <p>Sheesh sheesh sheesh...</p>
-
-                                                <a>More</a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="column is-4">
-                                    <div class="card">
-
-                                        <div class="card-image">
-                                            <figure class="image is-4by3">
-                                                <img src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="Placeholder image">
-                                            </figure>
-                                        </div>
-
-                                        <div class="card-content">
-                                            <div class="media">
-                                                <div class="media-content">
-                                                    <p class="is-size-5">
-                                                        Learn to HTML
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <div class="content">
-                                                <p>Sheesh sheesh sheesh...</p>
+                                                <p>{{ course.short_description }}</p>
 
                                                 <a>More</a>
                                             </div>
@@ -199,7 +87,25 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+
+    data(){
+        return {
+            courses: []
+        }
+    },
+
+    mounted(){
+        console.log('Component mounted.')
+        
+        axios
+        .get('api/v1/courses/')
+        .then(res => {
+            this.courses = res.data
+        })
+    }
 
 }
 </script>
