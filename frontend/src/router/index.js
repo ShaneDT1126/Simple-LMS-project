@@ -5,6 +5,7 @@ import SignupView from '../views/Signup.vue'
 import LoginView from '../views/LoginView.vue'
 import MyAccount from '../views/dashboard/MyAccount.vue'
 import CoursesView from '../views/CoursesView.vue'
+import CourseView from '../views/CourseView.vue'
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/courses',
     name: 'courses',
     component: CoursesView
+  },
+  {
+    path: '/course/:slug',
+    name: 'course',
+    component: CourseView
   }
 
 ]
