@@ -100,7 +100,7 @@ export default {
 
                     localStorage.setItem('token', token);
 
-                    this.$router.push({name: 'dashboard'})
+                    this.$router.push({name: 'home'})
 
                     console.log('form submitted')
                 })

@@ -23,9 +23,16 @@
                     </div>
 
                     <div class="column is-10">
-                        <h2>Introduction</h2>
-                        
-                        <p>{{ course.long_description }}</p>
+                        <template v-if="$store.state.user.isAuthenticated">
+                            <h2>Introduction</h2>
+                            <p>{{ course.long_description }}</p>
+                        </template>
+
+                        <template v-else >
+                            <h2>Introduction</h2>
+                            <p>You need to be logged in to view this course</p>
+                        </template>
+                       
                     </div>
                 </div>
             </div>
