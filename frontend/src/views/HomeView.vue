@@ -69,6 +69,12 @@
             </a>
           </div>
 
+          <hr>
+
+          <div class="column is-3" v-for="course in courses" :key="course.id">
+            <CourseItemView :course="course"/>
+          </div>
+
         </div>
       </div>
     </section>
@@ -78,13 +84,29 @@
 </template>
 
 <script>
+import CourseItemView from '@/components/CourseItemView.vue';
+import axios from 'axios';
 
 export default {
   name: 'HomeView',
 
   components: {
-    
-  }
+    CourseItemView
+  },
+
+  data(){
+    return {
+      courses: []
+    }
+  },
+
+  mounted(){
+        axios
+        .get('api/v1/courses/get_frontpage_courses/')
+        .then(res => {
+            this.courses = res.data
+        })
+    }
   
 }
 </script>
