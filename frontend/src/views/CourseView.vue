@@ -45,15 +45,19 @@
                                     <div class="field">
                                         <label class="label">Name</label>
                                         <div class="control">
-                                            <input type="text" class="input" v-model="comment.name">
+                                            <input type="text" class="input" v-model="comment.name" >
                                         </div>
                                     </div>
 
                                     <div class="field">
                                         <label class="label">Content</label>
                                         <div class="control">
-                                            <textarea class="textarea" v-model="comment.content"></textarea>
+                                            <textarea class="textarea" v-model="comment.content" ></textarea>
                                         </div>
+                                    </div>
+
+                                    <div class="notification is-danger" v-for="error in errors" :key="error">
+                                        {{ error }}
                                     </div>
 
                                     <div class="field">
@@ -95,6 +99,7 @@ export default {
             course: {},
             lessons: [],
             comments: [],
+            errors: [],
             activeLesson: null,
             comment: {
                 name: '',
@@ -105,18 +110,31 @@ export default {
 
     methods:{
         submitComment(){
-            axios
-            .post(`api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/`, this.comment)
-            .then(() => {
-                this.comment = {
-                    name: '',
-                    content: ''
-                }
-                alert('Comment Submitted');
-            })
-            .catch(err => {
-                console.log(err);
-            })
+            this.errors = [];
+
+            if(this.comment.name === ''){
+                this.errors.push('Name required');
+            }
+
+            if(this.comment.content === ''){
+                this.errors.push('Content required');
+            }
+
+
+            if(!this.errors.length){
+                axios
+                .post(`api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/`, this.comment)
+                .then(res => {
+                    this.comment = {
+                        name: '',
+                        content: ''
+                    }
+                    this.comments.push(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            }
 
             console.log('submitComment');
 
