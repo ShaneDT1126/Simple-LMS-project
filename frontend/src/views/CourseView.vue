@@ -26,6 +26,32 @@
                             <template v-if="activeLesson">
                                 <h2>{{ activeLesson.title }}</h2>
                                 <p>{{ activeLesson.long_description }}</p>
+
+                                <hr>
+
+                                <form v-on:submit.prevent="submitComment()">
+
+                                    <div class="field">
+                                        <label class="label">Name</label>
+                                        <div class="control">
+                                            <input type="text" class="input" v-model="comment.name">
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Content</label>
+                                        <div class="control">
+                                            <textarea class="textarea" v-model="comment.content"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <button class="button is-link">Submit</button>
+                                        </div>
+                                    </div>
+                                    
+                                </form>
                             </template>
 
                             <template v-else>
@@ -57,7 +83,31 @@ export default {
         return {
             course: {},
             lessons: [],
-            activeLesson: null
+            activeLesson: null,
+            comment: {
+                name: '',
+                content: ''
+            }
+        }
+    },
+
+    methods:{
+        submitComment(){
+            axios
+            .post(`api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/`, this.comment)
+            .then(() => {
+                this.comment = {
+                    name: '',
+                    content: ''
+                }
+                alert('Comment Submitted');
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+            console.log('submitComment');
+
         }
     },
 
@@ -65,7 +115,7 @@ export default {
         const slug = this.$route.params.slug;
 
         axios
-        .get(`api/v1/courses/${slug}`)
+        .get(`api/v1/courses/${slug}/`)
         .then(response => {
             console.log('data',response.data);
             this.course = response.data.course;
