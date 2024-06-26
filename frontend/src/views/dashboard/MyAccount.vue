@@ -24,7 +24,7 @@ export default {
 
             await axios
             .delete('api/v1/token/logout/')
-            .then(response => {
+            .then(() => {
                 console.log('Logged out')
             })
             .catch(error => {

@@ -14,18 +14,25 @@
                     <div class="column is-2">
                         <h2>Table of Contents</h2>
                         <ul>
-                            <li><a>Introduction</a></li>
-                            <li><a>Get Started</a></li>
-                            <li><a>Part One</a></li>
-                            <li><a>Part Two</a></li>
-                            <li><a>Summary</a></li>
+                            <li v-for="lesson in lessons" :key="lesson.id">
+                                <a @click="activeLesson = lesson">{{ lesson.title }}</a>
+                            </li>
                         </ul>
                     </div>
 
                     <div class="column is-10">
                         <template v-if="$store.state.user.isAuthenticated">
-                            <h2>Introduction</h2>
-                            <p>{{ course.long_description }}</p>
+
+                            <template v-if="activeLesson">
+                                <h2>{{ activeLesson.title }}</h2>
+                                <p>{{ activeLesson.long_description }}</p>
+                            </template>
+
+                            <template v-else>
+                                <h2>What this course is about?</h2>
+                                <p>{{ course.long_description }}</p>
+                            </template>
+                            
                         </template>
 
                         <template v-else >
@@ -48,7 +55,9 @@ export default {
 
     data(){
         return {
-            course: []
+            course: {},
+            lessons: [],
+            activeLesson: null
         }
     },
 
@@ -58,8 +67,9 @@ export default {
         axios
         .get(`api/v1/courses/${slug}`)
         .then(response => {
-            console.log(response.data);
-            this.course = response.data;
+            console.log('data',response.data);
+            this.course = response.data.course;
+            this.lessons = response.data.lessons;
         })
     }
 }
