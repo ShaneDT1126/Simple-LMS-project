@@ -15,7 +15,7 @@
                         <h2>Table of Contents</h2>
                         <ul>
                             <li v-for="lesson in lessons" :key="lesson.id">
-                                <a @click="activeLesson = lesson">{{ lesson.title }}</a>
+                                <a @click="setActiveLesson(lesson)">{{ lesson.title }}</a>
                             </li>
                         </ul>
                     </div>
@@ -28,6 +28,17 @@
                                 <p>{{ activeLesson.long_description }}</p>
 
                                 <hr>
+
+                                <article class="media box" v-for="comment in comments" :key="comment.id">
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <p>
+                                                <strong>{{ comment.name }}</strong> {{ comment.created_at }} <br>
+                                                {{ comment.content }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
 
                                 <form v-on:submit.prevent="submitComment()">
 
@@ -83,6 +94,7 @@ export default {
         return {
             course: {},
             lessons: [],
+            comments: [],
             activeLesson: null,
             comment: {
                 name: '',
@@ -108,6 +120,18 @@ export default {
 
             console.log('submitComment');
 
+        },
+        setActiveLesson(lesson){
+            this.activeLesson = lesson;
+
+            this.getComments();
+        },
+        getComments(){
+            axios
+            .get(`api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/get-comments/`)
+            .then(response => {
+                this.comments = response.data;
+            })
         }
     },
 
