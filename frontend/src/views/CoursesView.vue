@@ -17,11 +17,12 @@
                                     Categories
                                 </p>
                                 <ul class="menu-list">
-                                    <li><a class="is-active">All courses</a></li>
-                                    <li><a>Programming</a></li>
-                                    <li><a>Design</a></li>
-                                    <li><a>UI/UX</a></li>
-
+                                    <li>
+                                        <a :class="{'is-active': !activeCategory}" @click="setActiveCategory(null)" >All courses</a>
+                                    </li>
+                                    <li v-for="category in categories" :key="category.id">
+                                        <a @click="setActiveCategory(category)" >{{ category.title }}</a>
+                                    </li>
                                 </ul>
                             </aside>
                         </div>
@@ -75,17 +76,46 @@ export default {
 
     data(){
         return {
-            courses: []
+            courses: [],
+            categories: [],
+            activeCategory: null
         }
     },
 
-    mounted(){
+    methods:{
+        setActiveCategory(category){
+            this.activeCategory = category
+            console.log(category)
+            
+                this.getCourses()
+            
+        },
+        getCourses(){
+            let url = 'api/v1/courses/'
+
+            if(this.activeCategory){
+                url += `?category_id=${this.activeCategory.id}`
+            }
+
+            axios
+                .get(url)
+                .then(res => {
+                    this.courses = res.data
+                })
+        }
+    },
+
+    async mounted(){
         
-        axios
-        .get('api/v1/courses/')
+        await axios
+        .get('api/v1/courses/get_categories/')
         .then(res => {
-            this.courses = res.data
+            this.categories = res.data
         })
+
+        this.getCourses()
+
+
     }
 
 }
