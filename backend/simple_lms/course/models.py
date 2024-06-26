@@ -45,5 +45,8 @@ class Lessons(models.Model):
     slug = models.SlugField()
     short_description = models.TextField(blank=True, null=True)
     long_description = models.TextField(blank=True, null=True)
-    status = models.CharField(choices=CHOICES_LESSON_TYPE, default=PUBLISHED, max_length=20)
+    status = models.CharField(choices=CHOICES_STATUS, default=PUBLISHED, max_length=20)
     lesson_type = models.CharField(choices=CHOICES_LESSON_TYPE, default=ARTICLE, max_length=20)
+
+    def __str__(self):
+        return self.title
