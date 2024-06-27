@@ -42,6 +42,10 @@ export default {
             console.log('logout')
 
         }
+    },
+
+    mounted() {
+        document.title = "My Account | Study Hub";
     }
 }
 </script>

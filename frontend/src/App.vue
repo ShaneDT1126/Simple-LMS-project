@@ -29,6 +29,10 @@ export default {
     }
   },
 
+  mounted(){
+    document.title = "Study Hub";
+  }
+
 
 }
 

@@ -64,9 +64,10 @@
           </div>
 
           <div class="column is-12 has-text-centered">
-            <a class="button is-info is-size-3 mt-6 mb-6">
+            <router-link :to="{name: 'signup'}" class="button is-info is-size-3 mt-6 mb-6">
               Get Started
-            </a>
+            </router-link>
+            
           </div>
 
           <hr>
@@ -106,6 +107,11 @@ export default {
         .then(res => {
             this.courses = res.data
         })
+        .catch(err => {
+            console.log(err)
+        })
+
+    document.title = "Home | Study Hub";
     }
   
 }

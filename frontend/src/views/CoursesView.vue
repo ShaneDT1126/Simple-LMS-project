@@ -115,7 +115,7 @@ export default {
 
         this.getCourses()
 
-
+        document.title = "Courses | Study Hub";
     }
 
 }

@@ -17,6 +17,16 @@
 
 <script>
 export default {
+  name: 'AboutView',
+
+  data() {
+    return {
+    }
+  },
+
+  mounted() {
+    document.title = "About | Study Hub";
+  }
 
 }
 </script>

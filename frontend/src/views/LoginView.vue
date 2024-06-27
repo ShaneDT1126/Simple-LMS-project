@@ -125,6 +125,10 @@ export default {
 
   },
 
+  mounted(){
+    document.title = "Log In | Study Hub";
+  }
+
 
 }
 

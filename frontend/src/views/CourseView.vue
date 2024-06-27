@@ -153,16 +153,18 @@ export default {
         }
     },
 
-    mounted(){
+    async mounted(){
         const slug = this.$route.params.slug;
 
-        axios
+        await axios
         .get(`api/v1/courses/${slug}/`)
         .then(response => {
             console.log('data',response.data);
             this.course = response.data.course;
             this.lessons = response.data.lessons;
         })
+
+        document.title = this.course.title + ' | Study Hub';
     }
 }
 </script>

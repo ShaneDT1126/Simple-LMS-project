@@ -131,6 +131,9 @@ export default {
         }
     },
 
+    mounted(){
+        document.title = "Sign Up | Study Hub";
+    }
 
 }
 </script>
