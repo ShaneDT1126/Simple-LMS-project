@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Course, Lessons, Comment, Category
+from .models import Course, Lessons, Comment, Category, Quiz
 
 
 class CourseListSerializer(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 class LessonListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lessons
-        fields = ('id', 'title', 'slug', 'short_description', 'long_description')
+        fields = ('id', 'title', 'slug', 'lesson_type', 'short_description', 'long_description')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -30,3 +30,9 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'title', 'slug')
+
+
+class QuizSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quiz
+        fields = ('id', 'lesson_id', 'question', 'answer', 'op1', 'op2', 'op3')
