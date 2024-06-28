@@ -6,6 +6,7 @@ import LoginView from '../views/LoginView.vue'
 import MyAccount from '../views/dashboard/MyAccount.vue'
 import CoursesView from '../views/CoursesView.vue'
 import CourseView from '../views/CourseView.vue'
+import CARPView from '../views/CARPView.vue'
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/carp',
+    name: 'carp',
+    component: CARPView
   },
   {
     path: '/dashboard/profile',

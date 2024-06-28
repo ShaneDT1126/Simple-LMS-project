@@ -10,6 +10,7 @@
           <router-link :to="{name: 'home'}" class="navbar-item">Home</router-link>
           <router-link :to="{name: 'about'}" class="navbar-item">About</router-link>
           <router-link :to="{name: 'courses'}" class="navbar-item">Courses</router-link>
+          <router-link :to="{name: 'carp'}" class="navbar-item">CARP</router-link>
         </div>
 
         <div class="navbar-end">
