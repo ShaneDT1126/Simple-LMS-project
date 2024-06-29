@@ -67,17 +67,7 @@
 
                                 <template v-if="activeLesson.lesson_type === 'article'">
 
-                                
-                                    <article class="media box" v-for="comment in comments" :key="comment.id">
-                                        <div class="media-content">
-                                            <div class="content">
-                                                <p>
-                                                    <strong>{{ comment.name }}</strong> {{ comment.created_at }} <br>
-                                                    {{ comment.content }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </article>
+                                    <CourseCommentViewVue v-for="comment in comments" :key="comment.id" :comment="comment"/>
 
                                     <form v-on:submit.prevent="submitComment()">
 
@@ -130,9 +120,15 @@
 
 <script>
 import axios from 'axios';
+import CourseCommentViewVue from '@/components/CourseCommentView.vue';
+
 
 export default {
     name: 'Course',
+
+    components: {
+        CourseCommentViewVue
+    },
 
     data(){
         return {
