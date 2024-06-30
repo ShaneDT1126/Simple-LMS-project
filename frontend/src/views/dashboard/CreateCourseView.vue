@@ -7,36 +7,36 @@
         </div>
 
         <section class="section">
-            <form @submit.prevent="submitForm">
-                <div class="field">
-                    <label>Title</label>
-                    <input type="text" v-model="course_form.title" class="input">
-                </div>
+            <div class="field">
+                <label>Title</label>
+                <input type="text" v-model="course_form.title" class="input">
+            </div>
                 
-                <div class="field">
-                    <label>Short Description</label>
-                    <textarea v-model="course_form.short_description" class="textarea"></textarea>
-                </div>
+            <div class="field">
+                <label>Short Description</label>
+                <textarea v-model="course_form.short_description" class="textarea"></textarea>
+            </div>
                 
-                <div class="field">
-                    <label>Long Description</label>
-                    <textarea v-model="course_form.long_description" class="textarea"></textarea>
-                </div>
+            <div class="field">
+                <label>Long Description</label>
+                <textarea v-model="course_form.long_description" class="textarea"></textarea>
+            </div>
 
-                <div class="field">
-                    <div class="select is-multiple">
-                        <select multiple size="10" v-model="course_form.categories" >
-                            <option v-for="category in categories" :key="category.id" :value="category.id">
-                                {{ category.title }}
-                            </option>
-                        </select>
-                    </div>
+            <div class="field">
+                <div class="select is-multiple">
+                    <select multiple size="10" v-model="course_form.categories" >
+                        <option v-for="category in categories" :key="category.id" :value="category.id">
+                            {{ category.title }}
+                        </option>
+                    </select>
                 </div>
+            </div>
 
-                <div class="field">
-                    <button class="button is-success">Submit</button>
-                </div>
-            </form>
+            <div class="field buttons">
+                <button class="button is-success is-outlined" @click="submitForm('draft')" >Submit as Draft</button>
+                <button class="button is-success is-outlined" @click="submitForm('review')" >Submit for Review</button>
+            </div>
+    
         </section>
 
     </div>
@@ -55,6 +55,7 @@ export default {
                 short_description: '',
                 long_description: '',
                 categories: [],
+                status: '',
             },
             categories: [],
         }
@@ -69,7 +70,10 @@ export default {
                 })
         },
 
-        submitForm(){
+        submitForm(status){
+            
+            this.course_form.status = status
+
             axios
                 .post('courses/create_course/', this.course_form)
                 .then(res => {
