@@ -5,6 +5,7 @@ from .serializers import CourseListSerializer, CourseDetailSerializer, LessonLis
     CategorySerializer, QuizSerializer, UserSerializer
 from .models import Course, Lessons, Comment, Category, Quiz
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 @api_view(['GET'])
@@ -101,3 +102,19 @@ def get_author_courses(request, user_id):
     })
 
 
+@api_view(['POST'])
+def create_course(request):
+    print(request.data)
+    course = Course.objects.create(
+        title=request.data.get('title'),
+        slug=slugify(request.data.get('title')),
+        short_description=request.data.get('short_description'),
+        long_description=request.data.get('long_description'),
+        created_by=request.user
+    )
+    for id in request.data.get('categories'):
+        course.categories.add(id)
+
+    course.save()
+
+    return Response({'message': 'success'})
