@@ -103,7 +103,7 @@ export default {
 
   mounted(){
         axios
-        .get('api/v1/courses/get_frontpage_courses/')
+        .get('courses/get_frontpage_courses/')
         .then(res => {
             this.courses = res.data
         })

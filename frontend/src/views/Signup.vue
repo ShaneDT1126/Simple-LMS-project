@@ -105,7 +105,7 @@ export default {
                 }
 
                 axios
-                .post('/api/v1/users/',formData)
+                .post('users/',formData)
                 .then(res =>{
                     this.$router.push({name: 'login'})
                 })

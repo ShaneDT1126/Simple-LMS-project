@@ -91,7 +91,7 @@ export default {
             
         },
         getCourses(){
-            let url = 'api/v1/courses/'
+            let url = 'courses/'
 
             if(this.activeCategory){
                 url += `?category_id=${this.activeCategory.id}`
@@ -108,7 +108,7 @@ export default {
     async mounted(){
         
         await axios
-        .get('api/v1/courses/get_categories/')
+        .get('courses/get_categories/')
         .then(res => {
             this.categories = res.data
         })

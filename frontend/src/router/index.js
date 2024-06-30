@@ -7,6 +7,8 @@ import MyAccount from '../views/dashboard/MyAccount.vue'
 import CoursesView from '../views/CoursesView.vue'
 import CourseView from '../views/CourseView.vue'
 import CARPView from '../views/CARPView.vue'
+import AuthorView from '../views/AuthorView.vue'
+import CreateCourseView from '../views/dashboard/CreateCourseView.vue'
 
 const routes = [
   {
@@ -48,6 +50,16 @@ const routes = [
     path: '/course/:slug',
     name: 'course',
     component: CourseView
+  },
+  {
+    path: '/authors/:id',
+    name: 'author',
+    component: AuthorView
+  },
+  {
+    path: '/dashboard/create-course',
+    name: 'create-course',
+    component: CreateCourseView
   }
 
 ]
