@@ -108,7 +108,7 @@ export default {
 
         getQuiz(){
             axios
-            .get(`api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/get-quiz/`)
+            .get(`courses/${this.course.slug}/${this.activeLesson.slug}/get-quiz/`)
             .then(response => {
                 this.quiz = response.data;
                 console.log('quiz', response.data);
@@ -117,7 +117,7 @@ export default {
 
         getComments(){
             axios
-            .get(`api/v1/courses/${this.course.slug}/${this.activeLesson.slug}/get-comments/`)
+            .get(`courses/${this.course.slug}/${this.activeLesson.slug}/get-comments/`)
             .then(response => {
                 this.comments = response.data;
             })
@@ -129,7 +129,7 @@ export default {
         const slug = this.$route.params.slug;
 
         await axios
-        .get(`api/v1/courses/${slug}/`)
+        .get(`courses/${slug}/`)
         .then(response => {
             console.log('data',response.data.course);
             this.course = response.data.course;

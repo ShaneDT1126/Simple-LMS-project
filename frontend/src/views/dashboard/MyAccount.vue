@@ -23,7 +23,7 @@ export default {
         async logout(){
 
             await axios
-            .post('api/v1/token/logout/')
+            .post('token/logout/')
             .then(() => {
                 console.log('Logged out')
             })
