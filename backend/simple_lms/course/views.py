@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from random import randint
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .serializers import CourseListSerializer, CourseDetailSerializer, LessonListSerializer, CommentSerializer, \
@@ -107,7 +108,7 @@ def create_course(request):
     print(request.data)
     course = Course.objects.create(
         title=request.data.get('title'),
-        slug=slugify(request.data.get('title')),
+        slug='%s-%s' % (slugify(request.data.get('title')),randint(1)),
         short_description=request.data.get('short_description'),
         long_description=request.data.get('long_description'),
         status=request.data.get('status'),
@@ -118,4 +119,15 @@ def create_course(request):
 
     course.save()
 
-    return Response({'message': 'success'})
+    for lesson in request.data.get('lessons'):
+        tmp_lesson = Lessons.objects.create(
+            course=course,
+            title=lesson.get('title'),
+            short_description=lesson.get('short_description'),
+            long_description=lesson.get('short_description'),
+            slug=slugify(lesson.get('title')),
+            status=Lessons.DRAFT,
+        )
+        tmp_lesson.save()
+
+    return Response({'course_id': course.id})
