@@ -1,4 +1,4 @@
-class Memory {
+export default class Memory {
     static animation = null;
     static MEMORY_SIZE = 65536;
     static contents = new Array(Memory.MEMORY_SIZE).fill(0);
@@ -21,7 +21,7 @@ class Memory {
             Memory.animation.IOint = Memory.contents[Memory.MEMORY_SIZE];
             Memory.animation.IO = AssemblyInstructions.ToNumberString(Memory.animation.IOint, 2, 8);
         } else {
-            console.log("The box is not present");
+            console.log("The animation object is not present.");
         }
 
         return true;
@@ -71,7 +71,7 @@ class Memory {
             if (isHex) {
                 sb.push(`${i} : ${Memory.contents[i].toString(16).padStart(2, '0')}`);
             } else {
-                sb.push(`${i} : ${Memory.contents[i] & (0xFF).toString(2).padStart(8, '0')}`);
+                sb.push(`${i} : ${Memory.contents[i].toString(2).padStart(8, '0')}`);
             }
 
             sb.push("");
@@ -81,7 +81,7 @@ class Memory {
             }
         }
 
-        textBox.text = sb.join("\n");
+        textBox.innerText = sb.join("\n");
     }
 
     static GetInstructions() {
