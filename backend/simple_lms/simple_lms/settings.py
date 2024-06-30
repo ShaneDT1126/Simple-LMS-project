@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'djoser',
-    'course'
+    'course',
+    'activity'
 ]
 
 WEBSITE_URL = 'http://127.0.0.1:8000'
