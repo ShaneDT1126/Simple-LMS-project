@@ -25,6 +25,12 @@
 
                             <template v-if="activeLesson">
                                 <h2>{{ activeLesson.title }}</h2>
+
+                                <span class="tag is-warning" v-if="activity.status == 'started' " @click="markAsDone" >Started</span>
+                                <span class="tag is-success" v-if="activity.status == 'done' " >Done</span>
+
+                                <hr>
+
                                 <p>{{ activeLesson.long_description }}</p>
 
                                 <hr>
@@ -95,6 +101,7 @@ export default {
             errors: [],
             quiz: {},
             activeLesson: null,
+            activity: {}
         }
     },
 
@@ -112,7 +119,24 @@ export default {
                 this.getComments();
             }
 
+            this.trackStarted()
             
+        },
+
+        trackStarted(){
+            axios
+            .post(`activities/track_started/${this.$route.params.slug}/${this.activeLesson.slug}/`)
+            .then(res =>{
+                this.activity = res.data;
+            })
+        },
+
+        markAsDone(){
+            axios
+            .post(`activities/mark_as_done/${this.$route.params.slug}/${this.activeLesson.slug}/`)
+            .then(res =>{
+                this.activity = res.data;
+            })
         },
 
         getQuiz(){
