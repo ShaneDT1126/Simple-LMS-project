@@ -72,12 +72,12 @@ def add_comment(request, course_slug, lesson_slug):
     course = Course.objects.get(slug=course_slug)
     lesson = Lessons.objects.get(slug=lesson_slug)
 
-    comment = Comment.objects.create(course=course, lesson=lesson, name=data.get('name'), content=data.get('content'), created_by=request.user)
+    comment = Comment.objects.create(course=course, lesson=lesson, name=data.get('name'), content=data.get('content'),
+                                     created_by=request.user)
 
     serializer = CommentSerializer(comment)
 
     return Response(serializer.data)
-
 
 
 @api_view(['GET'])
@@ -110,6 +110,7 @@ def create_course(request):
         slug=slugify(request.data.get('title')),
         short_description=request.data.get('short_description'),
         long_description=request.data.get('long_description'),
+        status=request.data.get('status'),
         created_by=request.user
     )
     for id in request.data.get('categories'):
@@ -118,5 +119,3 @@ def create_course(request):
     course.save()
 
     return Response({'message': 'success'})
-
-
