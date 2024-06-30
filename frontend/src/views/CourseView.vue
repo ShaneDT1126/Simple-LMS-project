@@ -35,6 +35,12 @@
 
                                 </template>
 
+                                <template v-if="activeLesson.lesson_type === 'video'">
+                                   
+                                   <VideoViewVue :youtube_id="activeLesson.youtube_id" />
+
+                               </template>
+
                                 <template v-if="activeLesson.lesson_type === 'article'">
 
                                     <CourseCommentViewVue v-for="comment in comments" :key="comment.id" :comment="comment"/>
@@ -68,6 +74,8 @@ import axios from 'axios';
 import CourseCommentViewVue from '@/components/CourseCommentView.vue';
 import AddCommentViewVue from '@/components/AddCommentView.vue';
 import QuizViewVue from '@/components/QuizView.vue';
+import VideoViewVue from '@/components/VideoView.vue';
+
 
 export default {
     name: 'Course',
@@ -75,7 +83,8 @@ export default {
     components: {
         CourseCommentViewVue,
         AddCommentViewVue,
-        QuizViewVue
+        QuizViewVue,
+        VideoViewVue
     },
 
     data(){
@@ -134,7 +143,10 @@ export default {
             console.log('data',response.data.course);
             this.course = response.data.course;
             this.lessons = response.data.lessons;
+            console.log('lesson', response.data.lessons );
         })
+
+        
 
         document.title = this.course.title + ' | Study Hub';
     }
