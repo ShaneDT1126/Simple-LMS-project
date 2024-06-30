@@ -51,12 +51,10 @@ def get_course(request, slug):
     else:
         course_data = {}
 
-    data = {
+    return Response({
         'course': course_data,
         'lessons': lesson_serializer.data
-    }
-
-    return Response(data)
+    })
 
 
 @api_view(['GET'])
@@ -71,13 +69,10 @@ def get_comments(request, course_slug, lesson_slug):
 @api_view(['POST'])
 def add_comment(request, course_slug, lesson_slug):
     data = request.data
-    name = data.get('name')
-    content = data.get('content')
-
     course = Course.objects.get(slug=course_slug)
     lesson = Lessons.objects.get(slug=lesson_slug)
 
-    comment = Comment.objects.create(course=course, lesson=lesson, name=name, content=content, created_by=request.user)
+    comment = Comment.objects.create(course=course, lesson=lesson, name=data.get('name'), content=data.get('content'), created_by=request.user)
 
     serializer = CommentSerializer(comment)
 
