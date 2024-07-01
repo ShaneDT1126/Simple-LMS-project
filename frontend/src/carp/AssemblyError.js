@@ -1,4 +1,4 @@
-class AssemblyError {
+export default class AssemblyError {
     constructor(lineNumber = 0, str = "") {
         this.lineNumber = lineNumber;
         this.str = str;

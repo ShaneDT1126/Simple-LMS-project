@@ -1,3 +1,4 @@
+// Memory.js (or the appropriate file name)
 export default class Memory {
     static animation = null;
     static MEMORY_SIZE = 65536;

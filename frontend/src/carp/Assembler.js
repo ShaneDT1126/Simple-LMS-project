@@ -1,4 +1,4 @@
-class Assembler {
+export default class Assembler {
     static NOP = "NOP";
     static LDAC = "LDAC";
     static STAC = "STAC";

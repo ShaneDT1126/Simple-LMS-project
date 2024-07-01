@@ -1,4 +1,4 @@
-class AssemblyResults {
+export default class AssemblyResults {
     constructor(errors, source) {
         this.errors = errors || [];
         this.source = source;

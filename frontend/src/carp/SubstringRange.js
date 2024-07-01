@@ -1,4 +1,4 @@
-class SubstringRange {
+export default class SubstringRange {
     constructor(begin = 0, end = 0) {
         this.setBeginIndex(begin);
         this.setEndIndex(end);

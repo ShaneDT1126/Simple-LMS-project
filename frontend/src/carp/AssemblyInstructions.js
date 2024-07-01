@@ -1,4 +1,4 @@
-class AssemblyInstructions {
+export default class AssemblyInstructions {
     static NOP = "NOP";
     static LDAC = "LDAC";
     static STAC = "STAC";

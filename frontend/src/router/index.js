@@ -69,22 +69,22 @@ const routes = [
   },
   {
     path: '/carp/memory',
-    name: 'carpMemory',
+    name: 'carp-memory',
     component: MemoryView
   },
   {
     path: '/carp/breakpoints',
-    name: 'carpBreakPoints',
+    name: 'carp-break-points',
     component: BreakPointView
   },
   {
     path: '/carp/traceResults',
-    name: 'carpTraceResults',
+    name: 'carp-trace-results',
     component: TraceResultView
   },
   {
     path: '/carp/system',
-    name: 'carpSystem',
+    name: 'carp-system',
     component: SystemView
   }
 ]

@@ -1,14 +1,5 @@
 <template>
-  <div class="bg-gray-900 text-white min-h-screen p-6 flex">
     <!-- Right Section -->
-    <div class="w-2/3 pl-6">
-      <div class="flex justify-between items-center mb-6">
-        <button class="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">Memory and IO</button>
-        <button class="bg-gray-800 px-4 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">Breakpoints</button>
-        <button class="bg-gray-800 px-4 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">Trace Results</button>
-        <button class="bg-gray-800 px-4 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">View System</button>
-      </div>
-
       <div class="bg-gray-800 p-6 rounded">
         <h2 class="text-xl font-bold mb-4">MEMORY AND IO</h2>
         <div class="h-96 overflow-y-auto mb-4 bg-gray-900 p-4 rounded" ref="memoryContentDisplay">
@@ -25,11 +16,12 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
 </template>
 
 <script>
+// Import the Memory class
+import Memory from '@/carp/Memory.js'; // Adjust the path as necessary
+
 export default {
   name: 'MemoryView',
   data() {
@@ -47,11 +39,7 @@ export default {
     },
     convertTo(format) {
       console.log(`Converting to ${format}`);
-      if(format == 'HEX'){
-        this.isHex = true;
-      }else{
-        this.isHex = false;
-      }
+      this.isHex = format === 'HEX';
       // Implement conversion logic here if needed
       Memory.UpdateMemoryTextBox(this.$refs.memoryContentDisplay, this.isHex);
     },
