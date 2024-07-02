@@ -41,7 +41,7 @@ export default class AssemblyParser {
         this.z_bit = 0;
     }
 
-    startAnimation(memoryStartLocation) {
+    static startAnimation(memoryStartLocation) {
         for (this.i = memoryStartLocation; this.i < this.memorycode.length; this.i++) {
             this.FETCH1();
             this.FETCH2();
@@ -118,7 +118,7 @@ export default class AssemblyParser {
         }
     }
 
-    resetRegisters() {
+    static resetRegisters() {
         this.IOint = 0;
         this.IO = "00000000";
         this.ar_bit = 0x00000000;
@@ -131,92 +131,92 @@ export default class AssemblyParser {
         this.z_bit = 0;
     }
 
-    FETCH1() {
+    static FETCH1() {
         this.ar_bit = this.pc_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    FETCH2() {
+    static FETCH2() {
         this.pc_bit += 1;
         this.dr_bit = this.memorycode[this.i];
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    FETCH3() {
+    static FETCH3() {
         this.ar_bit = this.pc_bit;
         this.ir_bit = this.dr_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    LDAC1() {
+    static LDAC1() {
         this.dr_bit = this.memorycode[this.i];
         this.ar_bit += 1;
         this.pc_bit += 1;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    LDAC2() {
+    static LDAC2() {
         this.tr_bit = this.dr_bit;
         this.dr_bit = this.memorycode[this.i];
         this.pc_bit += 1;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    LDAC3() {
+    static LDAC3() {
         this.ar_bit = this.dr_bit | this.tr_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    LDAC4() {
+    static LDAC4() {
         this.dr_bit = this.memorycode[this.i];
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    LDAC5() {
+    static LDAC5() {
         this.ac_bit = this.dr_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    STAC1() {
+    static STAC1() {
         this.dr_bit = this.memorycode[this.i];
         this.ar_bit += 1;
         this.pc_bit += 1;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    STAC2() {
+    static STAC2() {
         this.tr_bit = this.dr_bit;
         this.dr_bit = this.memorycode[this.i];
         this.pc_bit += 1;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    STAC3() {
+    static STAC3() {
         this.ar_bit = this.dr_bit | this.tr_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    STAC4() {
+    static STAC4() {
         this.dr_bit = this.ac_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    STAC5() {
+    static STAC5() {
         this.memorycode[this.i] = this.dr_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    MVAC() {
+    static MVAC() {
         this.r_bit = this.ac_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    MOVR() {
+    static MOVR() {
         this.ac_bit = this.r_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    JUMP() {
+    static JUMP() {
         const position = this.memorycode[this.i] - 1;
         if (position >= 0 && position < this.memorycode.length) {
             TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
@@ -226,7 +226,7 @@ export default class AssemblyParser {
         }
     }
 
-    JMPZ() {
+    static JMPZ() {
         if (this.z_bit === 1) {
             const position = this.memorycode[this.i] - 1;
             TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
@@ -236,7 +236,7 @@ export default class AssemblyParser {
         }
     }
 
-    JPNZ() {
+    static JPNZ() {
         if (this.z_bit === 0) {
             const position = this.memorycode[this.i] - 1;
             TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
@@ -246,63 +246,63 @@ export default class AssemblyParser {
         }
     }
 
-    NOP() {
+    static NOP() {
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    END() {
+    static END() {
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    ADD() {
+    static ADD() {
         this.ac_bit += this.r_bit;
         this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    SUB() {
+    static SUB() {
         this.ac_bit -= this.r_bit;
         this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    INAC() {
+    static INAC() {
         this.ac_bit += 1;
         this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    CLAC() {
+    static CLAC() {
         this.ac_bit = 0;
         this.z_bit = 1;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    AND() {
+    static AND() {
         this.ac_bit &= this.r_bit;
         this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    OR() {
+    static OR() {
         this.ac_bit |= 1;
         this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    XOR() {
+    static XOR() {
         this.ac_bit ^= 1;
         this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    NOT() {
+    static NOT() {
         this.ac_bit = ~this.ac_bit;
         this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    spaceInserter(reg, regname) {
+    static spaceInserter(reg, regname) {
         let binaryString;
         if (regname === "ar" || regname === "pc") {
             binaryString = reg.toString(2).padStart(16, '0');
