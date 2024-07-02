@@ -4,19 +4,19 @@ export default class AssemblyError {
         this.str = str;
     }
 
-    getLineNumber() {
+    static getLineNumber() {
         return this.lineNumber;
     }
 
-    getString() {
+    static getString() {
         return this.str;
     }
 
-    setLineNumber(lineNumber) {
+    static setLineNumber(lineNumber) {
         this.lineNumber = lineNumber;
     }
 
-    setString(str) {
+    static setString(str) {
         this.str = str;
     }
 }

@@ -8,19 +8,19 @@ export default class SubstringRange {
         return this.beginIndex;
     }
 
-    getEndIndex() {
+     getEndIndex() {
         return this.endIndex;
     }
 
-    getLength() {
+     getLength() {
         return this.endIndex - this.beginIndex;
     }
 
-    setBeginIndex(begin) {
+     setBeginIndex(begin) {
         this.beginIndex = begin > 0 ? begin : 0;
     }
 
-    setEndIndex(end) {
+     setEndIndex(end) {
         this.endIndex = end > 0 ? end : 0;
     }
 }

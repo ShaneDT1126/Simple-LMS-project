@@ -1,3 +1,8 @@
+import AssemblySourceProgram from '@/carp/AssemblySourceProgram.js'; // Adjust the path as necessary
+import AssemblyInstructions from '@/carp/AssemblyInstructions.js'; // Adjust the path as necessary
+import AssemblyResults from '@/carp/AssemblyResults.js'; // Adjust the path as necessary
+import AssemblyError from '@/carp/AssemblyError.js'; // Adjust the path as necessary
+import Memory from '@/carp/Memory.js'; // Adjust the path as necessary
 export default class Assembler {
     static NOP = "NOP";
     static LDAC = "LDAC";
@@ -20,19 +25,19 @@ export default class Assembler {
     static ORG = "ORG";
     static DB = "DB";
     static DW = "DW";
-
+    
     static Assemble(source, location) {
         const code = new AssemblySourceProgram(source);
         let memoryCounter = location;
         const assemblyErrorList = [];
         let errorCount = 0;
 
-        for (let lineIndex = 1; lineIndex <= code.SourceLineLength(); lineIndex++) {
-            const line = code.GetSourceLineByLineNumber(lineIndex);
+        for (let lineIndex = 1; lineIndex <= code.sourceLineLength(); lineIndex++) {
+            const line = code.getSourceLineByLineNumber(lineIndex);
             console.log(line);
 
-            if (line && line.SourceTokenLength() > 0) {
-                const tokens = line.GetSourceTokenStringArray();
+            if (line && line.sourceTokenLength() > 0) {
+                const tokens = line.getSourceTokenStringArray();
                 let offset = 0;
                 if (this.IsLabel(tokens[0])) {
                     offset = 1;
@@ -63,7 +68,7 @@ export default class Assembler {
                         errorCount++;
                         assemblyErrorList.push(new AssemblyError(
                             lineIndex, `LINE ${lineIndex}::  ${tokens[0 + offset]}: DB does not accept more than one operand`));
-                    } else if (AssemblyInstructions.ToByteShort(tokens[1 + offset]) == -1) {
+                    } else if (AssemblyInstructions.toByteShort(tokens[1 + offset]) == -1) {
                         errorCount++;
                         assemblyErrorList.push(new AssemblyError(
                             lineIndex, `LINE ${lineIndex}::  ${tokens[1 + offset]}: Specified byte constant is invalid`));
@@ -78,14 +83,14 @@ export default class Assembler {
                         errorCount++;
                         assemblyErrorList.push(new AssemblyError(
                             lineIndex, `LINE ${lineIndex}::  ${tokens[0 + offset]}: DW does not accept more than one operand`));
-                    } else if (AssemblyInstructions.ToWordInteger(tokens[1 + offset]) == -1) {
+                    } else if (AssemblyInstructions.toWordInteger(tokens[1 + offset]) == -1) {
                         errorCount++;
                         assemblyErrorList.push(new AssemblyError(
                             lineIndex, `LINE ${lineIndex}::  ${tokens[1 + offset]}: Specified word constant is invalid`));
                     }
                 } else if (AssemblyInstructions.isMnemonic(tokens[0 + offset])) {
                     console.log("Mnemonic");
-                    if (AssemblyInstructions.ExpectsOperands(tokens[0 + offset]) === 1) {
+                    if (AssemblyInstructions.expectsOperands(tokens[0 + offset]) === 1) {
                         if (tokens.length - offset < 2) {
                             errorCount++;
                             assemblyErrorList.push(new AssemblyError(
@@ -118,10 +123,10 @@ export default class Assembler {
             // Error handling here
         } else {
             // If no errors exist, assemble program
-            for (let lineIndex = 1; lineIndex <= code.SourceLineLength(); lineIndex++) {
-                const line = code.GetSourceLineByLineNumber(lineIndex);
-                if (line && line.toString() !== "" && line.SourceTokenLength() > 0) {
-                    const tokens = line.GetSourceTokenStringArray();
+            for (let lineIndex = 1; lineIndex <= code.sourceLineLength(); lineIndex++) {
+                const line = code.getSourceLineByLineNumber(lineIndex);
+                if (line && line.toString() !== "" && line.sourceTokenLength() > 0) {
+                    const tokens = line.getSourceTokenStringArray();
                     let offset = 0;
                     if (this.IsLabel(tokens[0])) {
                         offset = 1;
@@ -130,19 +135,19 @@ export default class Assembler {
                     if (tokens[0 + offset].toUpperCase() === Assembler.ORG) {
                         memoryCounter = AssemblyInstructions.toAddressInteger(tokens[1 + offset]);
                     } else if (tokens[0 + offset].toUpperCase() === Assembler.DB) {
-                        const byteShort = AssemblyInstructions.ToByteShort(tokens[1 + offset]);
+                        const byteShort = AssemblyInstructions.toByteShort(tokens[1 + offset]);
                         Memory.Write(memoryCounter, byteShort);
                         memoryCounter++;
                     } else if (tokens[0 + offset].toUpperCase() === Assembler.DW) {
-                        const wordCode = AssemblyInstructions.ToWordCode(AssemblyInstructions.ToWordInteger(tokens[1 + offset]));
+                        const wordCode = AssemblyInstructions.toWordCode(AssemblyInstructions.toWordInteger(tokens[1 + offset]));
                         Memory.Write(memoryCounter, wordCode[0]);
                         Memory.Write(memoryCounter + 1, wordCode[1]);
                         memoryCounter += 2;
                     } else {
-                        code.SetSourceLineAddressByLineNumber(memoryCounter, lineIndex);
-                        Memory.Write(memoryCounter, AssemblyInstructions.ToMnemonicCode(tokens[0 + offset]));
+                        code.setSourceLineAddressByLineNumber(memoryCounter, lineIndex);
+                        Memory.Write(memoryCounter, AssemblyInstructions.toMnemonicCode(tokens[0 + offset]));
 
-                        if (AssemblyInstructions.ExpectsOperands(tokens[0 + offset]) === 1) {
+                        if (AssemblyInstructions.expectsOperands(tokens[0 + offset]) === 1) {
                             let addressCode;
                             if (this.LabelExists(tokens[1 + offset], code)) {
                                 addressCode = AssemblyInstructions.toAddressCode(this.GetLabelAddress(tokens[1 + offset], code));
@@ -168,9 +173,9 @@ export default class Assembler {
     }
 
     static LabelExists(label, code) {
-        for (let lineIndex = 1; lineIndex <= code.SourceLineLength(); lineIndex++) {
-            const line = code.GetSourceLineByLineNumber(lineIndex);
-            if (line && line.GetLabel().toLowerCase() === label.toLowerCase() + ":") {
+        for (let lineIndex = 1; lineIndex <= code.sourceLineLength(); lineIndex++) {
+            const line = code.getSourceLineByLineNumber(lineIndex);
+            if (line && line.getLabel().toLowerCase() === label.toLowerCase() + ":") {
                 return true;
             }
         }
@@ -180,14 +185,14 @@ export default class Assembler {
     static GetLabelAddress(label, code) {
         if (this.LabelExists(label, code)) {
             let memoryCounter = 0;
-            for (let lineIndex = 1; lineIndex <= code.SourceLineLength(); lineIndex++) {
-                const line = code.GetSourceLineByLineNumber(lineIndex);
-                if (line && line.GetLabel().toLowerCase() === label.toLowerCase() + ":") {
+            for (let lineIndex = 1; lineIndex <= code.sourceLineLength(); lineIndex++) {
+                const line = code.getSourceLineByLineNumber(lineIndex);
+                if (line && line.getLabel().toLowerCase() === label.toLowerCase() + ":") {
                     return memoryCounter;
                 }
 
-                if (line && line.SourceTokenLength() > 0) {
-                    const tokens = line.GetSourceTokenStringArray();
+                if (line && line.sourceTokenLength() > 0) {
+                    const tokens = line.getSourceTokenStringArray();
                     let offset = 0;
                     if (this.IsLabel(tokens[0])) {
                         offset = 1;
@@ -200,7 +205,7 @@ export default class Assembler {
                     } else if (tokens[0 + offset].toUpperCase() === Assembler.DW) {
                         memoryCounter += 2;
                     } else {
-                        code.SetSourceLineAddressByLineNumber(memoryCounter, lineIndex);
+                        code.setSourceLineAddressByLineNumber(memoryCounter, lineIndex);
 
                         if (AssemblyInstructions.ExpectsOperands(tokens[0 + offset]) === 1) {
                             memoryCounter += 2;

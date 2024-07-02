@@ -46,6 +46,7 @@ import TraceResultView from '../views/carp/TraceResultView.vue';
 import SystemView from '../views/carp/SystemView.vue';
 import Assembler from '@/carp/Assembler';
 import AssemblyParser from '@/carp/AssemblyParser';
+import Memory from '@/carp/Memory';
 
 export default {
   name: 'CARPNavBar',
@@ -67,9 +68,16 @@ export default {
   methods: {
     assembleCode() {
       // Placeholder logic to assemble the code
-      Assembler.assembleCode(this.inputCode,this.currentMemoryLocation);
-      AssemblyParser.startAnimation(this.currentMemoryLocation);
-      console.log('Assembling code:', this.inputCode);
+      Assembler.Assemble(this.inputCode,this.currentMemoryLocation);
+      AssemblyParser.startAnimation(this.currentMemoryLocation, Memory.contents);
+      console.log("AR: "+ AssemblyParser.ar_bit
+      + "\nPC: "+ AssemblyParser.pc_bit
+      + "\nDR: "+ AssemblyParser.dr_bit
+      + "\nTR: "+ AssemblyParser.tr_bit
+      + "\nIR: "+ AssemblyParser.ir_bit
+      + "\nR: "+ AssemblyParser.r_bit
+      + "\nAC: "+ AssemblyParser.ac_bit
+      + "\nZ: "+ AssemblyParser.z_bit);
     },
     chooseOption(name) {
       switch (name) {

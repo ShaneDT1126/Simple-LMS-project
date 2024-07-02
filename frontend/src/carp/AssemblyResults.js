@@ -4,15 +4,15 @@ export default class AssemblyResults {
         this.source = source;
     }
 
-    getErrors() {
+    static getErrors() {
         return this.errors;
     }
 
-    getErrorCount() {
+    static getErrorCount() {
         return this.errors.length;
     }
 
-    getSource() {
+    static getSource() {
         return this.source;
     }
 }

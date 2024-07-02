@@ -1,4 +1,4 @@
-class AssemblySourceLine {
+export default class AssemblySourceLine {
     constructor(source, range, line, addr = -1) {
         this.sourceString = source;
         this.sourceSubstringRange = { beginIndex: range.beginIndex, endIndex: range.endIndex };

@@ -1,3 +1,4 @@
+import TraceResults from '@/carp/TraceResults.js'; // Adjust the path as necessary
 export default class AssemblyParser {
     constructor() {
         this.breakpoints = [];
@@ -41,30 +42,30 @@ export default class AssemblyParser {
         this.z_bit = 0;
     }
 
-    static startAnimation(memoryStartLocation) {
-        for (this.i = memoryStartLocation; this.i < this.memorycode.length; this.i++) {
-            this.FETCH1();
-            this.FETCH2();
-            this.FETCH3();
-            switch (this.memorycode[this.i]) {
+    static startAnimation(memoryStartLocation, memorycode) {
+        for (let i = memoryStartLocation; i < memorycode.length; i++) {
+            this.FETCH1(memorycode, i);
+            this.FETCH2(memorycode, i);
+            this.FETCH3(memorycode, i);
+            switch (memorycode[i]) {
                 case this.opcodeNOP:
                     this.NOP();
                     break;
                 case this.opcodeLDAC:
-                    this.i++;
-                    this.LDAC1();
-                    this.LDAC2();
-                    this.LDAC3();
-                    this.LDAC4();
-                    this.LDAC5();
+                    i++;
+                    this.LDAC1(memorycode, i);
+                    this.LDAC2(memorycode, i);
+                    this.LDAC3(memorycode, i);
+                    this.LDAC4(memorycode, i);
+                    this.LDAC5(memorycode, i);
                     break;
                 case this.opcodeSTAC:
-                    this.i++;
-                    this.STAC1();
-                    this.STAC2();
-                    this.STAC3();
-                    this.STAC4();
-                    this.STAC5();
+                    i++;
+                    this.STAC1(memorycode, i);
+                    this.STAC2(memorycode, i);
+                    this.STAC3(memorycode, i);
+                    this.STAC4(memorycode, i);
+                    this.STAC5(memorycode, i);
                     break;
                 case this.opcodeMVAC:
                     this.MVAC();
@@ -73,16 +74,16 @@ export default class AssemblyParser {
                     this.MOVR();
                     break;
                 case this.opcodeJUMP:
-                    this.i++;
-                    this.JUMP();
+                    i++;
+                    this.JUMP(memorycode, i);
                     break;
                 case this.opcodeJMPZ:
-                    this.i++;
-                    this.JMPZ();
+                    i++;
+                    this.JMPZ(memorycode, i);
                     break;
                 case this.opcodeJPNZ:
-                    this.i++;
-                    this.JPNZ();
+                    i++;
+                    this.JPNZ(memorycode, i);
                     break;
                 case this.opcodeADD:
                     this.ADD();
@@ -118,91 +119,78 @@ export default class AssemblyParser {
         }
     }
 
-    static resetRegisters() {
-        this.IOint = 0;
-        this.IO = "00000000";
-        this.ar_bit = 0x00000000;
-        this.pc_bit = 0x00000000;
-        this.dr_bit = 0x00000000;
-        this.tr_bit = 0x00000000;
-        this.ir_bit = 0x00000000;
-        this.r_bit = 0x00000000;
-        this.ac_bit = 0x00000000;
-        this.z_bit = 0;
-    }
-
-    static FETCH1() {
+    static FETCH1(memorycode, i) {
         this.ar_bit = this.pc_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static FETCH2() {
+    static FETCH2(memorycode, i) {
         this.pc_bit += 1;
-        this.dr_bit = this.memorycode[this.i];
+        this.dr_bit = memorycode[i];
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static FETCH3() {
+    static FETCH3(memorycode, i) {
         this.ar_bit = this.pc_bit;
         this.ir_bit = this.dr_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static LDAC1() {
-        this.dr_bit = this.memorycode[this.i];
+    static LDAC1(memorycode, i) {
+        this.dr_bit = memorycode[i];
         this.ar_bit += 1;
         this.pc_bit += 1;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static LDAC2() {
+    static LDAC2(memorycode, i) {
         this.tr_bit = this.dr_bit;
-        this.dr_bit = this.memorycode[this.i];
+        this.dr_bit = memorycode[i];
         this.pc_bit += 1;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static LDAC3() {
+    static LDAC3(memorycode, i) {
         this.ar_bit = this.dr_bit | this.tr_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static LDAC4() {
-        this.dr_bit = this.memorycode[this.i];
+    static LDAC4(memorycode, i) {
+        this.dr_bit = memorycode[i];
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static LDAC5() {
+    static LDAC5(memorycode, i) {
         this.ac_bit = this.dr_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static STAC1() {
-        this.dr_bit = this.memorycode[this.i];
+    static STAC1(memorycode, i) {
+        this.dr_bit = memorycode[i];
         this.ar_bit += 1;
         this.pc_bit += 1;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static STAC2() {
+    static STAC2(memorycode, i) {
         this.tr_bit = this.dr_bit;
-        this.dr_bit = this.memorycode[this.i];
+        this.dr_bit = memorycode[i];
         this.pc_bit += 1;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static STAC3() {
+    static STAC3(memorycode, i) {
         this.ar_bit = this.dr_bit | this.tr_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static STAC4() {
+    static STAC4(memorycode, i) {
         this.dr_bit = this.ac_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static STAC5() {
-        this.memorycode[this.i] = this.dr_bit;
+    static STAC5(memorycode, i) {
+        memorycode[i] = this.dr_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
@@ -216,111 +204,67 @@ export default class AssemblyParser {
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static JUMP() {
-        const position = this.memorycode[this.i] - 1;
-        if (position >= 0 && position < this.memorycode.length) {
-            TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
-            this.i = position;
-        } else {
-            console.log("Invalid memory line JUMP");
-        }
-    }
-
-    static JMPZ() {
-        if (this.z_bit === 1) {
-            const position = this.memorycode[this.i] - 1;
-            TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
-            this.i = position;
-        } else {
-            TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
-        }
-    }
-
-    static JPNZ() {
-        if (this.z_bit === 0) {
-            const position = this.memorycode[this.i] - 1;
-            TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
-            this.i = position;
-        } else {
-            TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
-        }
-    }
-
-    static NOP() {
+    static JUMP(memorycode, i) {
+        this.pc_bit = memorycode[i];
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static END() {
+    static JMPZ(memorycode, i) {
+        if (this.z_bit == 1) {
+            this.pc_bit = memorycode[i];
+        }
+        TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
+    }
+
+    static JPNZ(memorycode, i) {
+        if (this.z_bit == 0) {
+            this.pc_bit = memorycode[i];
+        }
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
     static ADD() {
         this.ac_bit += this.r_bit;
-        this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
     static SUB() {
         this.ac_bit -= this.r_bit;
-        this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
     static INAC() {
         this.ac_bit += 1;
-        this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
     static CLAC() {
         this.ac_bit = 0;
-        this.z_bit = 1;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
     static AND() {
         this.ac_bit &= this.r_bit;
-        this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
     static OR() {
-        this.ac_bit |= 1;
-        this.z_bit = (this.ac_bit === 0) ? 1 : 0;
+        this.ac_bit |= this.r_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
     static XOR() {
-        this.ac_bit ^= 1;
-        this.z_bit = (this.ac_bit === 0) ? 1 : 0;
+        this.ac_bit ^= this.r_bit;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
     static NOT() {
         this.ac_bit = ~this.ac_bit;
-        this.z_bit = (this.ac_bit === 0) ? 1 : 0;
         TraceResults.addResult("rtlStatement", "Data Movement", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
     }
 
-    static spaceInserter(reg, regname) {
-        let binaryString;
-        if (regname === "ar" || regname === "pc") {
-            binaryString = reg.toString(2).padStart(16, '0');
-        } else if (regname === "z") {
-            binaryString = reg.toString();
-        } else {
-            binaryString = reg.toString(2).padStart(8, '0');
-        }
-
-        const groupSize = 4;
-        for (let i = groupSize; i < binaryString.length; i += (groupSize + 1)) {
-            binaryString = binaryString.slice(0, i) + " " + binaryString.slice(i);
-        }
-        return binaryString;
-    }
-
-    static binaryStringToInt(binaryString) {
-        const cleanedBinaryString = binaryString.replace(/ /g, '');
-        return parseInt(cleanedBinaryString, 2);
+    static END() {
+        TraceResults.addResult("rtlStatement", "End Execution", this.ar_bit, this.pc_bit, this.dr_bit, this.tr_bit, this.ir_bit, this.r_bit, this.ac_bit, this.z_bit);
+        return;
     }
 }

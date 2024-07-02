@@ -1,11 +1,13 @@
-class AssemblySourceProgram {
+import SubstringRange from '@/carp/SubstringRange.js'; // Adjust the path as necessary
+import AssemblySourceLine from '@/carp/AssemblySourceLine.js'; // Adjust the path as necessary
+export default class AssemblySourceProgram {
     constructor(source) {
         this.sourceString = source;
         this.sourceLineArray = [];
         this.tokenizeAndProcess();
     }
 
-    tokenizeAndProcess() {
+    tokenizeAndProcess() { // Changed from static to instance method
         const lineVector = [];
         const pattern = /^(?!;)([^;\r\n]+)/gm;
         const regex = new RegExp(pattern);
@@ -27,6 +29,13 @@ class AssemblySourceProgram {
             }
         }
         this.sourceLineArray = lineVector;
+    }
+
+    findSourceLine(sourceLine, line) { // Changed from static to instance method
+        const beginIndex = this.sourceString.indexOf(sourceLine);
+        const endIndex = beginIndex + sourceLine.length;
+        const range = new SubstringRange(beginIndex, endIndex);
+        return new AssemblySourceLine(this.sourceString, range, line);
     }
 
     getSourceLineByLineNumber(line) {
@@ -58,12 +67,5 @@ class AssemblySourceProgram {
 
     sourceLineLength() {
         return this.sourceLineArray.length;
-    }
-
-    findSourceLine(sourceLine, line) {
-        const beginIndex = this.sourceString.indexOf(sourceLine);
-        const endIndex = beginIndex + sourceLine.length;
-        const range = new SubstringRange(beginIndex, endIndex);
-        return new AssemblySourceLine(this.sourceString, range, line);
     }
 }
