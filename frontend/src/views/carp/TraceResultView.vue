@@ -4,6 +4,7 @@
     
     <div class="h-96 bg-gray-800 mb-6 rounded-lg overflow-y-auto">
       <!-- Trace result will go here -->
+      <pre>{{ traceResult }}</pre>
     </div>
     
     <div class="flex justify-end space-x-4">
@@ -24,6 +25,8 @@
 </template>
 
 <script>
+import TraceResults from '@/carp/TraceResults.js'; // Adjust the path as necessary
+
 export default {
   name: 'TraceResult',
   data() {
@@ -33,13 +36,25 @@ export default {
   },
   methods: {
     viewResult() {
-      // Logic to view the trace result
-      console.log('Viewing trace result')
+      // Clear existing trace results
+      this.traceResult = '';
+
+      // Iterate through TraceResults and update traceResult
+      if (TraceResults.results.length === 0) {
+        console.log('No results to display.');
+        this.traceResult = 'No results to trace...';
+      } else {
+        TraceResults.results.forEach(result => {
+          this.traceResult += result.toString() + '\n';
+        });
+        console.log('Trace results updated:', this.traceResult);
+      }
     },
     clearResult() {
       // Logic to clear the trace result
-      this.traceResult = ''
-      console.log('Cleared trace result')
+      this.traceResult = '';
+      TraceResults.removeAllStatements(); // Clear results in TraceResults
+      console.log('Cleared trace result');
     }
   }
 }
