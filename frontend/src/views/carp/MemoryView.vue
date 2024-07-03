@@ -36,6 +36,7 @@ export default {
       Memory.Clear();
       this.memoryContent = '';
       this.currentMemoryLocation = 0;
+      Memory.UpdateMemoryTextBox(this.$refs.memoryContentDisplay, this.isHex);
     },
     convertTo(format) {
       console.log(`Converting to ${format}`);

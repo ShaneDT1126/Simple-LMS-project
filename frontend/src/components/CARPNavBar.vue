@@ -46,7 +46,8 @@ import TraceResultView from '../views/carp/TraceResultView.vue';
 import SystemView from '../views/carp/SystemView.vue';
 import Assembler from '@/carp/Assembler';
 import AssemblyParser from '@/carp/AssemblyParser';
-import Memory from '@/carp/Memory';
+import TraceResults from '@/carp/TraceResults';
+import Memory from '@/carp/Memory.js'; // Adjust the path as necessary
 
 export default {
   name: 'CARPNavBar',
@@ -68,16 +69,33 @@ export default {
   methods: {
     assembleCode() {
       // Placeholder logic to assemble the code
-      Assembler.Assemble(this.inputCode,this.currentMemoryLocation);
-      AssemblyParser.startAnimation(this.currentMemoryLocation, Memory.contents);
-      console.log("AR: "+ AssemblyParser.ar_bit
-      + "\nPC: "+ AssemblyParser.pc_bit
-      + "\nDR: "+ AssemblyParser.dr_bit
-      + "\nTR: "+ AssemblyParser.tr_bit
-      + "\nIR: "+ AssemblyParser.ir_bit
-      + "\nR: "+ AssemblyParser.r_bit
-      + "\nAC: "+ AssemblyParser.ac_bit
-      + "\nZ: "+ AssemblyParser.z_bit);
+      const assembler = new Assembler();
+      const results = assembler.Assemble(this.inputCode,this.currentMemoryLocation);
+      const errors = results.getErrors();
+      if (errors.length > 0) {
+          console.log("Assembly Errors:");
+          errors.forEach(error => {
+              console.log(`Line ${error.getLine()}: ${error.getMessage()}`);
+          });
+      } else {
+          console.log("Assembly completed successfully with no errors.");
+      }
+      const assemblyParser = new AssemblyParser();
+      assemblyParser.startAnimation(this.currentMemoryLocation);
+      // Accessing the latest result from TraceResults
+      if (TraceResults.results.length > 0) {
+        const latestResult = TraceResults.results[TraceResults.results.length - 1];
+        console.log("AR: " + assemblyParser.spaceInserter(latestResult.ar,"ar")
+          + "\nPC: " + assemblyParser.spaceInserter(latestResult.pc,"pc")
+          + "\nDR: " + assemblyParser.spaceInserter(latestResult.dr,"dr")
+          + "\nTR: " + assemblyParser.spaceInserter(latestResult.tr,"tr")
+          + "\nIR: " + assemblyParser.spaceInserter(latestResult.ir,"ir")
+          + "\nR: " + assemblyParser.spaceInserter(latestResult.r,"r")
+          + "\nAC: " + assemblyParser.spaceInserter(latestResult.ac,"ac")
+          + "\nZ: " + assemblyParser.spaceInserter(latestResult.z,"z"));
+      } else {
+        console.log("No results available");
+      }
     },
     chooseOption(name) {
       switch (name) {

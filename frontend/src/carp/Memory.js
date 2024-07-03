@@ -1,6 +1,5 @@
 // Memory.js (or the appropriate file name)
 export default class Memory {
-    static animation = null;
     static MEMORY_SIZE = 65536;
     static contents = new Array(Memory.MEMORY_SIZE).fill(0);
 
@@ -18,12 +17,6 @@ export default class Memory {
         }
 
         Memory.contents[address] = data;
-        if (Memory.animation !== null) {
-            Memory.animation.IOint = Memory.contents[Memory.MEMORY_SIZE];
-            Memory.animation.IO = AssemblyInstructions.ToNumberString(Memory.animation.IOint, 2, 8);
-        } else {
-            console.log("The animation object is not present.");
-        }
 
         return true;
     }

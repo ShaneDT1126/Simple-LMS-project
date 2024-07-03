@@ -26,7 +26,7 @@ export default class Assembler {
     static DB = "DB";
     static DW = "DW";
     
-    static Assemble(source, location) {
+    Assemble(source, location) {
         const code = new AssemblySourceProgram(source);
         let memoryCounter = location;
         const assemblyErrorList = [];
@@ -168,11 +168,11 @@ export default class Assembler {
         return new AssemblyResults(assemblyErrors, code);
     }
 
-    static IsLabel(token) {
+    IsLabel(token) {
         return token.indexOf(':') !== -1 && token.indexOf(':') === token.length - 1 && token.length > 1;
     }
 
-    static LabelExists(label, code) {
+    LabelExists(label, code) {
         for (let lineIndex = 1; lineIndex <= code.sourceLineLength(); lineIndex++) {
             const line = code.getSourceLineByLineNumber(lineIndex);
             if (line && line.getLabel().toLowerCase() === label.toLowerCase() + ":") {
@@ -182,7 +182,7 @@ export default class Assembler {
         return false;
     }
 
-    static GetLabelAddress(label, code) {
+    GetLabelAddress(label, code) {
         if (this.LabelExists(label, code)) {
             let memoryCounter = 0;
             for (let lineIndex = 1; lineIndex <= code.sourceLineLength(); lineIndex++) {
