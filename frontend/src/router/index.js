@@ -11,10 +11,6 @@ import CreateCourseView from '../views/dashboard/CreateCourseView.vue'
 
 //CARP
 import CARPView from '../views/CARPView.vue'
-import BreakPointView from '../views/carp/BreakPointView.vue'
-import MemoryView from '../views/carp/MemoryView.vue'
-import SystemView from '../views/carp/SystemView.vue'
-import TraceResultView from '../views/carp/TraceResultView.vue'
 
 const routes = [
   {
@@ -66,26 +62,6 @@ const routes = [
     path: '/carp',
     name: 'carp',
     component: CARPView
-  },
-  {
-    path: '/carp/memory',
-    name: 'carp-memory',
-    component: MemoryView
-  },
-  {
-    path: '/carp/breakpoints',
-    name: 'carp-break-points',
-    component: BreakPointView
-  },
-  {
-    path: '/carp/traceResults',
-    name: 'carp-trace-results',
-    component: TraceResultView
-  },
-  {
-    path: '/carp/system',
-    name: 'carp-system',
-    component: SystemView
   }
 ]
 

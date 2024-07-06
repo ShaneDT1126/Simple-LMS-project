@@ -1,4 +1,4 @@
-// Memory.js (or the appropriate file name)
+import Notification from '@/carp/Notification.js'; // Adjust the path as necessary
 export default class Memory {
     static MEMORY_SIZE = 65536;
     static contents = new Array(Memory.MEMORY_SIZE).fill(0);
@@ -23,6 +23,7 @@ export default class Memory {
 
     static Clear() {
         Memory.contents.fill(0);
+        Notification.messageBox("Memory Cleared Successfully!");
     }
 
     static ToBinaryNybbleStringArray(byteShort) {

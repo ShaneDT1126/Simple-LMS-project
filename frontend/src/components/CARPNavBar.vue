@@ -48,6 +48,7 @@ import Assembler from '@/carp/Assembler';
 import AssemblyParser from '@/carp/AssemblyParser';
 import TraceResults from '@/carp/TraceResults';
 import Memory from '@/carp/Memory.js'; // Adjust the path as necessary
+import Notification from '@/carp/Notification.js'; // Adjust the path as necessary
 
 export default {
   name: 'CARPNavBar',
@@ -76,25 +77,32 @@ export default {
           console.log("Assembly Errors:");
           errors.forEach(error => {
               console.log(`Line ${error.getLine()}: ${error.getMessage()}`);
+              Notification.messageBox(`Line ${error.getLine()}: ${error.getMessage()}`);
           });
       } else {
           console.log("Assembly completed successfully with no errors.");
+          Notification.messageBox('Assembly completed successfully with no errors.');
       }
       const assemblyParser = new AssemblyParser();
       assemblyParser.startAnimation(this.currentMemoryLocation);
       // Accessing the latest result from TraceResults
       if (TraceResults.results.length > 0) {
         const latestResult = TraceResults.results[TraceResults.results.length - 1];
-        console.log("AR: " + assemblyParser.spaceInserter(latestResult.ar,"ar")
+        const resultMessage = "AR: " + assemblyParser.spaceInserter(latestResult.ar,"ar")
           + "\nPC: " + assemblyParser.spaceInserter(latestResult.pc,"pc")
           + "\nDR: " + assemblyParser.spaceInserter(latestResult.dr,"dr")
           + "\nTR: " + assemblyParser.spaceInserter(latestResult.tr,"tr")
           + "\nIR: " + assemblyParser.spaceInserter(latestResult.ir,"ir")
           + "\nR: " + assemblyParser.spaceInserter(latestResult.r,"r")
           + "\nAC: " + assemblyParser.spaceInserter(latestResult.ac,"ac")
-          + "\nZ: " + assemblyParser.spaceInserter(latestResult.z,"z"));
+          + "\nZ: " + assemblyParser.spaceInserter(latestResult.z,"z")
+
+        console.log(resultMessage);
+        Notification.messageBox('Output: \n' + resultMessage);
+
       } else {
         console.log("No results available");
+        Notification.messageBox("No results available");
       }
     },
     chooseOption(name) {

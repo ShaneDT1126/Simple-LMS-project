@@ -33,8 +33,10 @@
 </template>
 
 <script>
+import BreakPoint from '@/carp/BreakPoint.js'; // Adjust the path as necessary
+
 export default {
-  name: 'BreakPoint',
+  name: 'BreakPoints',
   data() {
     return {
       breakInput: '',
@@ -46,10 +48,12 @@ export default {
       if (this.breakInput) {
         // Simulating trace execution
         this.breakResult += `break: ${this.breakInput}\n`;
+        BreakPoint.AddBreakPoint(this.breakInput);
         this.breakInput = '';
       }
     },
     clearBreaks() {
+      BreakPoint.DeleteAllBreakPoints();
       this.breakResult = '';
       this.breakInput = '';
     }

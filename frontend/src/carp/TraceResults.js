@@ -1,3 +1,4 @@
+import Notification from '@/carp/Notification.js'; // Adjust the path as necessary
 export default class TraceResults {
     static results = [];
     static resultsStatements = [];
@@ -14,6 +15,7 @@ export default class TraceResults {
     static removeAllStatements() {
       this.results.length = 0;
       this.resultsStatements.length = 0;
+      Notification.messageBox("Trace Results Cleared Successfully!");
     }
   
     static updateTraceResults(trace) {
