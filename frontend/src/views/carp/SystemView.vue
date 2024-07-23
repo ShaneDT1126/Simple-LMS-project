@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-900 text-white p-6">
+  <!-- <div class="bg-gray-900 text-white p-6">
     <div class="grid grid-cols-2 gap-4 mb-6">
       <div>
         <div class="mb-2"><span class="font-bold">AR:</span> {{ registers.AR }}</div>
@@ -47,10 +47,10 @@
     <div>read</div>
     <div>write</div>
   </div>
-  <div class="absolute bottom-8 left-2 text-xs">clk</div>
+  <div class="absolute bottom-8 left-2 text-xs">clk</div> -->
   
   <!-- Lines -->
-  <div class="absolute top-8 left-36 w-[calc(100%-9rem)] h-px bg-white"></div>
+  <!-- <div class="absolute top-8 left-36 w-[calc(100%-9rem)] h-px bg-white"></div>
   <div class="absolute top-16 left-36 w-[calc(100%-9rem)] h-px bg-white"></div>
   <div class="absolute bottom-16 left-24 w-[calc(100%-6rem)] h-px bg-white"></div>
   <div class="absolute bottom-20 left-24 w-[calc(100%-6rem)] h-px bg-white"></div>
@@ -70,8 +70,23 @@
         <button @click="stepThroughCycle" class="bg-green-600 px-4 py-2 rounded text-sm">STEP THROUGH CYCLE</button>
         <button @click="stepThroughInstruction" class="bg-green-600 px-4 py-2 rounded text-sm">STEP THROUGH INSTRUCTION</button>
       </div>
+    </div> -->
+    <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-8 rounded-lg shadow-lg text-center">
+      <h1 class="text-3xl font-bold text-white mb-4">Download The CARP Simulator</h1>
+      <p class="text-lg text-gray-200 mb-6">Get started with our powerful simulator today!</p>
+      <button 
+        @click="downloadZip" 
+        class="bg-white text-blue-600 font-semibold px-6 py-3 rounded-full 
+              shadow-md hover:bg-blue-100 transition duration-300 ease-in-out 
+              transform hover:-translate-y-1 hover:scale-105"
+      >
+        <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+        </svg>
+        Download CARP Simulator
+      </button>
     </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -114,6 +129,15 @@ export default {
     stepThroughInstruction() {
       console.log('Stepping through instruction')
       // Implement instruction step logic
+    },
+    downloadZip() {
+      const zipFileUrl = process.env.BASE_URL + 'CARP.zip';
+      const link = document.createElement('a');
+      link.href = zipFileUrl;
+      link.download = 'CARP.zip';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   }
 }
