@@ -29,11 +29,35 @@
     </div>
     <div class="w-2/3 pl-6">
     <div class="flex justify-between items-center mb-3">
-        <button @click="chooseOption('Memory')" class="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">Memory and IO</button>
-        <button @click="chooseOption('BreakPoint')" class="bg-gray-800 px-4 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">Breakpoints</button>
-        <button @click="chooseOption('TraceResult')" class="bg-gray-800 px-4 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">Trace Results</button>
-        <button @click="chooseOption('System')" class="bg-gray-800 px-4 py-2 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">View System</button>
-      </div>
+      <button 
+        @click="chooseOption('Memory')" 
+        :class="[
+          'px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-500',
+          selectedOption === 'Memory' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-800 hover:bg-gray-700'
+        ]"
+      >Memory and IO</button>
+      <button 
+        @click="chooseOption('BreakPoint')" 
+        :class="[
+          'px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-500',
+          selectedOption === 'BreakPoint' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-800 hover:bg-gray-700'
+        ]"
+      >Breakpoints</button>
+      <button 
+        @click="chooseOption('TraceResult')" 
+        :class="[
+          'px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-500',
+          selectedOption === 'TraceResult' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-800 hover:bg-gray-700'
+        ]"
+      >Trace Results</button>
+      <button 
+        @click="chooseOption('System')" 
+        :class="[
+          'px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-500',
+          selectedOption === 'System' ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-800 hover:bg-gray-700'
+        ]"
+      >View System</button>
+    </div>
     <component :is="currentView" />
     </div>
   </div>
@@ -64,7 +88,8 @@ export default {
       rtlStatement: '',
       currentMemoryLocation: 0,
       inputCode: '',
-      currentView: MemoryView // Set initial view
+      currentView: MemoryView, // Set initial view
+      selectedOption: 'Memory'
     }
   },
   methods: {
@@ -109,15 +134,19 @@ export default {
       switch (name) {
         case 'Memory':
           this.currentView = MemoryView;
+          this.selectedOption = 'Memory';
           break;
         case 'BreakPoint':
           this.currentView = BreakPointView;
+          this.selectedOption = 'BreakPoint';
           break;
         case 'TraceResult':
           this.currentView = TraceResultView;
+          this.selectedOption = 'TraceResult';
           break;
         case 'System':
           this.currentView = SystemView;
+          this.selectedOption = 'System';
           break;
       }
     }
