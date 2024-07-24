@@ -4,22 +4,22 @@
     <div class="w-1/3 pr-6">
       <div class="mb-6">
         <div class="mb-4">
-          <span class="mr-2">Current CPU Status:</span>
-          <span class="text-red-500 font-bold">{{ cpuStatus }}</span>
-        </div>
-        <div class="mb-4">
-          <div>Current RTL Statement:</div>
-          <div class="text-gray-400">{{ rtlStatement }}</div>
-        </div>
-        <div class="mb-4">
-          <div>Current Memory Location:</div>
-          <div class="text-4xl mb-2">{{ currentMemoryLocation }}</div>
+          <div>Final RTL Statement:</div>
+          <div class="text-red-500">{{ rtlStatement }}</div>
+          </div>
+          <div class="mb-4">
+            <div>Final Data Movement:</div>
+            <div class="text-red-500">{{ dataMovement }}</div>
+          </div>
+          <div class="mb-4">
+            <div>Final Memory Location:</div>
+            <div class="text-red-500">{{ currentMemoryLocation }}</div>
         </div>
       </div>
       
       <textarea 
         v-model="inputCode" 
-        class="w-full h-64 bg-gray-800 text-white p-2 rounded resize-none focus:outline-none focus:ring-2 focus:ring-gray-600 mb-4"
+        class="w-full h-96 bg-gray-800 text-white p-2 rounded resize-none focus:outline-none focus:ring-2 focus:ring-gray-600 mb-4"
         placeholder="Input code here..."
       ></textarea>
       
@@ -84,8 +84,8 @@ export default {
   },
   data() {
     return {
-      cpuStatus: 'Idle',
-      rtlStatement: '',
+      rtlStatement: 'None',
+      dataMovement: 'None',
       currentMemoryLocation: 0,
       inputCode: '',
       currentView: MemoryView, // Set initial view
@@ -121,6 +121,10 @@ export default {
           + "\nR: " + assemblyParser.spaceInserter(latestResult.r,"r")
           + "\nAC: " + assemblyParser.spaceInserter(latestResult.ac,"ac")
           + "\nZ: " + assemblyParser.spaceInserter(latestResult.z,"z")
+
+        this.rtlStatement = assemblyParser.rtlStatement;
+        this.dataMovement = assemblyParser.dataMovement;
+        this.currentMemoryLocation = assemblyParser.i;
 
         console.log(resultMessage);
         Notification.messageBox('Output: \n' + resultMessage);

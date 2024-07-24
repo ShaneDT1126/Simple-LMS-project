@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-gray-900 text-white p-6">
+  <div class="bg-gray-800 text-white p-6">
     <h1 class="text-3xl font-bold mb-6">BREAK POINT</h1>
     
-    <div class="h-96 bg-gray-800 mb-6 rounded-lg overflow-y-auto p-4">
+    <div class="h-96 overflow-y-auto mb-4 bg-gray-900 p-4 rounded" ref="memoryContentDisplay">
       <!-- Trace result will go here -->
       <pre class="text-sm">{{ breakResult }}</pre>
     </div>

@@ -1,10 +1,15 @@
 <template>
     <!-- Right Section -->
       <div class="bg-gray-800 p-6 rounded">
-        <h2 class="text-xl font-bold mb-4">MEMORY AND IO</h2>
-        <div class="h-96 overflow-y-auto mb-4 bg-gray-900 p-4 rounded" ref="memoryContentDisplay">
+        <h1 class="text-3xl font-bold mb-6">MEMORY VIEW</h1>
+        <div class="h-96 overflow-y-auto mb-4 bg-gray-900 p-4 rounded relative" ref="memoryContentDisplay">
+        <div v-if="loading" class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-10">
+            <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
           <!-- Memory content will be dynamically updated here -->
-          {{ memoryContent }}
+          <div v-if="!loading">
+            {{ memoryContent }}
+          </div>
         </div>
         <div class="flex justify-between">
           <button @click="viewMemory" class="bg-gray-700 px-6 py-2 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">VIEW</button>
@@ -27,7 +32,8 @@ export default {
   data() {
     return {
       memoryContent: '',
-      isHex: false
+      isHex: false,
+      loading: false
     }
   },
   methods: {
@@ -44,8 +50,13 @@ export default {
       // Implement conversion logic here if needed
       Memory.UpdateMemoryTextBox(this.$refs.memoryContentDisplay, this.isHex);
     },
-    viewMemory() {
+    async viewMemory() {
+      this.loading = true;
+      // Simulate an asynchronous operation
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       Memory.UpdateMemoryTextBox(this.$refs.memoryContentDisplay, this.isHex);
+      this.loading = false;
     }
   }
 }
