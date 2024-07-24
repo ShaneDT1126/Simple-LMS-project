@@ -21,6 +21,7 @@
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "autoprefixer": "^10.4.19",
+    "file-loader": "^6.2.0",
     "postcss": "^8.4.38",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",

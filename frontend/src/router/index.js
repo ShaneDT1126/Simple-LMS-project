@@ -6,9 +6,11 @@ import LoginView from '../views/LoginView.vue'
 import MyAccount from '../views/dashboard/MyAccount.vue'
 import CoursesView from '../views/CoursesView.vue'
 import CourseView from '../views/CourseView.vue'
-import CARPView from '../views/CARPView.vue'
 import AuthorView from '../views/AuthorView.vue'
 import CreateCourseView from '../views/dashboard/CreateCourseView.vue'
+
+//CARP
+import CARPView from '../views/CARPView.vue'
 
 const routes = [
   {
@@ -30,11 +32,6 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
-  },
-  {
-    path: '/carp',
-    name: 'carp',
-    component: CARPView
   },
   {
     path: '/dashboard/profile',
@@ -60,8 +57,12 @@ const routes = [
     path: '/dashboard/create-course',
     name: 'create-course',
     component: CreateCourseView
+  },//CARP VIEW
+  {
+    path: '/carp',
+    name: 'carp',
+    component: CARPView
   }
-
 ]
 
 const router = createRouter({
